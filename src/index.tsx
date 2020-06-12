@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-const man = 9;
-const woman:number = 9;
 
 ReactDOM.render(
   <React.StrictMode>
