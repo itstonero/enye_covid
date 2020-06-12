@@ -6,16 +6,20 @@ import './App.css';
 
 function App() 
 {
-    const [ state, stateManager ] = useState<AppState>();
+    const [ state, appManager ] = useState<AppState>();
 
   return (
     <div className="row">
         <div className="col-3">
-            <HospitalFinder state = { state } stateManager = { stateManager }/>
+            <HospitalFinder state = { state } AppManger = { appManager }/>
         </div>
 
         <div className="col-9">
-            <HospitalList state = { state } stateManager = { stateManager }/>
+            { 
+                state?.isSearching 
+                ? "Searching For Hospital" 
+                :  <HospitalList state = { state } AppManager = { appManager }/> 
+            }
         </div>
 
     </div>
