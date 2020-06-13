@@ -17,8 +17,6 @@ export default function HospitalFinder(receivedProps : HospitalFinderHandler)
     {
         if(searchQuery.isRequesting)
         {
-            console.log("Getting Hospital From Google...");
-
             getHospitals(searchQuery).then(matchingHospitals => 
             {
                 hospitalFinderManager({...searchQuery, isRequesting:false });
@@ -32,9 +30,7 @@ export default function HospitalFinder(receivedProps : HospitalFinderHandler)
     }, [searchQuery.isRequesting])
 
     const handleAddress = (event : any):void => hospitalFinderManager({...searchQuery, address: event.target.value });
-
     const handleRadius = (radius:Radius):void => hospitalFinderManager({...searchQuery, radius });
-    
     const handleSearch = ():void => hospitalFinderManager({...searchQuery, isRequesting:true });
 
     const searchButton = <Button type="primary" shape="round" onClick={handleSearch} icon={<SearchOutlined />}> Search </Button>;

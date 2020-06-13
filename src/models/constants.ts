@@ -24,9 +24,9 @@ interface GoogleApi
 
 export const GooglePlaces:GoogleApi = 
 {
-    nearbyPlacesEndpoint : `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${geoLocation}&radius=${geoRadius}&type=${searchBy}&key=${GoogleApiKey}`,
-    geoLocationEndpoint : `https://maps.googleapis.com/maps/api/place/details/json?place_id=${geoPlaceID}&key=${GoogleApiKey}`,
     placeIdEndpoint : `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${geoQuery}&inputtype=textquery&key=${GoogleApiKey}`,
+    geoLocationEndpoint : `https://maps.googleapis.com/maps/api/place/details/json?place_id=${geoPlaceID}&key=${GoogleApiKey}`,
+    nearbyPlacesEndpoint : `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${geoLocation}&radius=${geoRadius}&type=${searchBy}&key=${GoogleApiKey}`,
 }
 
 export const GoogleHeaders:RequestInit = 
