@@ -1,4 +1,4 @@
-import { Radius } from "./enums";
+import { Radius } from "./constants";
 
 export interface Hospital
 {

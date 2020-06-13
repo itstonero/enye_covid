@@ -1,5 +1,6 @@
 const GoogleApiKey = "AIzaSyALQbAkgkiDS9chlu96Wqnr__TucA9NMfY";
 const searchBy:string = "hospital";
+
 export const geoLocation:string = "GEO_LOCATION";
 export const geoRadius:string = "GEO_RADIUS";
 export const geoPlaceID:string = "GEO_PLACE_ID";
@@ -23,8 +24,15 @@ interface GoogleApi
 
 export const GooglePlaces:GoogleApi = 
 {
-    placeIdEndpoint : `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${geoLocation}&radius=${geoRadius}&type=${searchBy}&key=${GoogleApiKey}`,
+    nearbyPlacesEndpoint : `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${geoLocation}&radius=${geoRadius}&type=${searchBy}&key=${GoogleApiKey}`,
     geoLocationEndpoint : `https://maps.googleapis.com/maps/api/place/details/json?place_id=${geoPlaceID}&key=${GoogleApiKey}`,
-    nearbyPlacesEndpoint : `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=input=${geoQuery}&inputtype=textquery&${GoogleApiKey}`,
-
+    placeIdEndpoint : `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${geoQuery}&inputtype=textquery&key=${GoogleApiKey}`,
 }
+
+export const GoogleHeaders:RequestInit = 
+{
+    mode:"cors"
+}
+
+
+

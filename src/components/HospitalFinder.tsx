@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Select, Input, Button, Spin } from "antd";
 import { SearchOutlined } from '@ant-design/icons';
 import { HospitalFinderHandler, Request } from "../models/interfaces";
-import { Radius, RadiusUnit } from "../models/enums";
+import { Radius, RadiusUnit } from "../models/constants";
 import swal from "sweetalert";
 import { getHospitals } from "../services/google";
 import '../App.css';
@@ -22,7 +22,7 @@ export default function HospitalFinder(receivedProps : HospitalFinderHandler)
             getHospitals(searchQuery).then(matchingHospitals => 
             {
                 hospitalFinderManager({...searchQuery, isRequesting:false });
-                receivedProps.AppManager({...receivedProps.currentState, searchQuery, matchingHospitals});
+                receivedProps.AppManager({...receivedProps.currentState, searchQuery, matchingHospitals, displayWelcome:false});
             }).catch(err => 
             {
                 console.log(err);
@@ -52,7 +52,7 @@ export default function HospitalFinder(receivedProps : HospitalFinderHandler)
                 <Option value={Radius.METROPOLITAN}>{Radius.METROPOLITAN} {RadiusUnit}</Option>
             </Select>
 
-            { searchQuery.isRequesting  ? <Spin size="large" /> : { searchButton } }
+            { searchQuery.isRequesting  ? <Spin size="large" /> : searchButton }
 
         </div>
     );

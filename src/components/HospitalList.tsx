@@ -20,6 +20,7 @@ export default function HospitalList(receivedProps : HospitalListHandler)
 
   return (
     <div>
+      
       { 
         receivedProps.matchingHospital.length === 0
         ?
