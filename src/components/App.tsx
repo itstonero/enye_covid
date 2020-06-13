@@ -10,17 +10,17 @@ function App()
     const [ state, appManager ] = useState<AppState>({ matchingHospitals : [], searchQuery : { radius:0, address:"" }, displayWelcome : true });
 
   return (
-    <div className="row container d-flex">
+    <>
 
-        <div className="col-3">
+        <div className="row d-flex justify-content-center m-5">
             <HospitalFinder currentState = { state } AppManager = { appManager }/>
         </div>
 
-        <div className="col-9">
+        <div className="row d-flex justify-content-center m-5 align-items-center">
             <HospitalList matchingHospital = { state.matchingHospitals }  showWelcomeScreen = {state.displayWelcome}/> 
         </div>
 
-    </div>
+    </>
   );
 }
 

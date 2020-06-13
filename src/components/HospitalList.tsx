@@ -3,36 +3,27 @@ import { HospitalListHandler } from "../models/interfaces";
 import '../App.css';
 import { Table } from 'antd';
 
-const columns:any = [
+const columns:any[] = [
   {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
 
   },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-  },
 ];
 
 export default function HospitalList(receivedProps : HospitalListHandler) 
 {
-  const message = receivedProps.showWelcomeScreen ? "Stay Safe" : "No Matching Hospital";
+  const message = receivedProps.showWelcomeScreen ? "Stay Safe" : "No Nearby Hospital";
   const hospitals:any = receivedProps.matchingHospital.map((item, index) => ({...item, key:index + 1}));
+  const Message = <h1 className="text-primary"> {message} </h1>;
 
   return (
     <div>
       { 
         receivedProps.matchingHospital.length === 0
         ?
-        message
+        Message
         :
         <Table columns={columns} dataSource={hospitals} />
       }

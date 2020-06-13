@@ -8,22 +8,22 @@ export async function getHospitals(searchParam:Locator) : Promise<Hospital[]>
 
     const placeURL:string = GooglePlaces.placeIdEndpoint.replace(geoQuery, searchParam.address);
     const placeResponse:any = await fetch(placeURL).then(data => data.json());
-    let isSuccess:boolean = placeResponse?.status == "OK";
+    let isSuccess:boolean = placeResponse?.status === "OK";
 
     if(isSuccess)
     {
         const retrieveGeoLocationURL = GooglePlaces.geoLocationEndpoint.replace(geoPlaceID, placeResponse.candidates[0].place_id);
-        const geoLocation:any = await fetch(retrieveGeoLocationURL).then(data => data.json);
-        isSuccess = geoLocation?.status == "OK";
+        const geoLocator:any = await fetch(retrieveGeoLocationURL).then(data => data.json());
+        isSuccess = geoLocator?.status === "OK";
 
         if(isSuccess)
         {
-            let location:any = geoLocation.geometry.location;
+            let location:any = geoLocator.geometry.location;
             let placesNearByURL:string = GooglePlaces.nearbyPlacesEndpoint.replace(geoLocation, `${location.lat},${location.lng}`);            
             placesNearByURL = placesNearByURL.replace(geoRadius, `${searchParam.radius}`);
             
-            const hospitalsLocated:any = await fetch(placesNearByURL).then(data => data.json);
-            isSuccess = hospitalsLocated?.status == "OK";
+            const hospitalsLocated:any = await fetch(placesNearByURL).then(data => data.json());
+            isSuccess = hospitalsLocated?.status === "OK";
 
             if(isSuccess)
             {
