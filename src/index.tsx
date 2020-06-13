@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./components/App";
 
-const loadUntoBrowser = document.getElementById("root");
-const entryApp = <React.StrictMode> <App /> </React.StrictMode>
+const root = document.getElementById("root");
 
-ReactDOM.render(entryApp, loadUntoBrowser);
+ReactDOM.render(<React.StrictMode> <App /> </React.StrictMode>, root);

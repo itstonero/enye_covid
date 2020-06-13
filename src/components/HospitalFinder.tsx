@@ -1,60 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Input, Button } from "antd";
+import { Select, Input, Button, Spin } from "antd";
 import { SearchOutlined } from '@ant-design/icons';
 import { HospitalFinderHandler, Request } from "../models/interfaces";
-import { Radius } from "../models/enums";
+import { Radius, RadiusUnit } from "../models/enums";
+import swal from "sweetalert";
 import { getHospitals } from "../services/google";
-import swal from 'sweetalert';
 import '../App.css';
 
 const { Option } = Select;
 
 export default function HospitalFinder(receivedProps : HospitalFinderHandler) 
 {
-    let searchParams:boolean = false;
-    const [searchQuery, hospitalFinderManager ] = useState<Request>({ radius : Radius.CLOSEBY, address: "" });
+    const [searchQuery, hospitalFinderManager ] = useState<Request>({ radius : Radius.CLOSEBY, address: "" , isRequesting: false});
 
     useEffect(()=>
     {
-        if(searchParams)
+        if(searchQuery.isRequesting)
         {
+            console.log("Getting Hospital From Google...");
+
             getHospitals(searchQuery).then(matchingHospitals => 
             {
-                receivedProps.AppManager({...receivedProps.currentState, searchQuery, matchingHospitals})
+                hospitalFinderManager({...searchQuery, isRequesting:false });
+                receivedProps.AppManager({...receivedProps.currentState, searchQuery, matchingHospitals});
+            }).catch(err => 
+            {
+                console.log(err);
+                hospitalFinderManager({...searchQuery, isRequesting:false });
             });
         }
-    }, [])
+    }, [searchQuery.isRequesting])
 
-    const handleAddress = (event : any):void =>
-    {
-        hospitalFinderManager({...searchQuery, address: event.target.value });
-        searchParams = !searchParams && true;
-    }
+    const handleAddress = (event : any):void => hospitalFinderManager({...searchQuery, address: event.target.value });
 
-    const handleRadius = (radius:Radius):void =>
-    {
-        hospitalFinderManager({...searchQuery, radius });
-        searchParams = !searchParams && true;    
-    }
+    const handleRadius = (radius:Radius):void => hospitalFinderManager({...searchQuery, radius });
+    
+    const handleSearch = ():void => hospitalFinderManager({...searchQuery, isRequesting:true });
 
+    const searchButton = <Button type="primary" shape="round" onClick={handleSearch} icon={<SearchOutlined />}> Search </Button>;
+    
     return (
-        <div className="d-flex text-center">
-            <Input 
-                value={searchQuery.address}
-                placeholder="Enter Address..."
-                onChange={ handleAddress }
-            />
 
-            <Select defaultValue={searchQuery.radius} className="ml-4" style={{ width: 200 }} onChange={handleRadius}>
-                <Option value={Radius.CLOSEBY}>10km</Option>
-                <Option value={Radius.REGION}>25km</Option>
-                <Option value={Radius.STATE}>50km</Option>
-                <Option value={Radius.METROPOLITAN}>100km</Option>
+        <div className="d-flex text-center">
+
+            <Input value={searchQuery.address} placeholder="Enter Address..."  onChange={ handleAddress }  />
+
+            <Select defaultValue={searchQuery.radius} className="ml-4 mr-4" style={{ width: 200 }} onChange={handleRadius}>
+                <Option value={Radius.CLOSEBY}>{Radius.CLOSEBY} {RadiusUnit}</Option>
+                <Option value={Radius.REGION}>{Radius.REGION} {RadiusUnit}</Option>
+                <Option value={Radius.STATE}>{Radius.STATE} {RadiusUnit}</Option>
+                <Option value={Radius.METROPOLITAN}>{Radius.METROPOLITAN} {RadiusUnit}</Option>
             </Select>
 
-            <Button type="primary" shape="round" className="ml-4" icon={<SearchOutlined />}>
-                Search
-            </Button>
+            { searchQuery.isRequesting  ? <Spin size="large" /> : { searchButton } }
+
         </div>
     );
 }

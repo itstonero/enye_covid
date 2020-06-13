@@ -10,13 +10,14 @@ export interface Hospital
 export interface Locator
 {
     address:string;
-    radius:number;
+    radius:Radius;
 }
 
 export interface Request
 {
     address:string;
     radius:Radius;
+    isRequesting:boolean;
 }
 
 export interface AppState

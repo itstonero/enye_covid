@@ -4,6 +4,7 @@ export const geoLocation:string = "GEO_LOCATION";
 export const geoRadius:string = "GEO_RADIUS";
 export const geoPlaceID:string = "GEO_PLACE_ID";
 export const geoQuery:string = "GEO_QUERY_STRING";
+export const RadiusUnit:string = "km";
 
 export enum Radius
 {
@@ -13,7 +14,7 @@ export enum Radius
     METROPOLITAN = 100,
 }
 
-export interface GoogleApi
+interface GoogleApi
 {
     placeIdEndpoint:string;
     geoLocationEndpoint:string;
