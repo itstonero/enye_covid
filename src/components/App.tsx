@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
-import { AppState } from "../models/state";
+import { AppState } from "../models/interfaces";
 import HospitalList from "./HospitalList"
 import HospitalFinder from "./HospitalFinder";
-import './App.css';
+import '../App.css';
 
 function App() 
 {
-    const [ state, appManager ] = useState<AppState>();
+
+    const [ state, appManager ] = useState<AppState>({ matchingHospitals : [], searchQuery : { radius:0, address:"" }, displayWelcome : true });
 
   return (
-    <div className="row">
+    <div className="row container d-flex">
+
         <div className="col-3">
-            <HospitalFinder state = { state } AppManger = { appManager }/>
+            <HospitalFinder currentState = { state } AppManager = { appManager }/>
         </div>
 
         <div className="col-9">
-            { 
-                state?.isSearching 
-                ? "Searching For Hospital" 
-                :  <HospitalList state = { state } AppManager = { appManager }/> 
-            }
+            <HospitalList matchingHospital = { state.matchingHospitals }  showWelcomeScreen = {state.displayWelcome}/> 
         </div>
 
     </div>
