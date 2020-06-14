@@ -15,7 +15,9 @@ export interface Request
     address:string;
     radius:Radius;
     isRequesting:boolean;
+    lastInput:any
 }
+
 export interface AppState
 {
     matchingHospitals:Hospital[];
@@ -31,4 +33,9 @@ export interface HospitalFinderHandler
 {
     currentState:AppState;
     AppManager : React.Dispatch<React.SetStateAction<AppState>>;
+}
+
+export interface HospitalTableHandler
+{
+    hospitals:Hospital[]
 }

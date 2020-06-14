@@ -13,17 +13,22 @@ function App()
     searchQuery : { radius: Radius.CLOSEBY, address:"" }, 
     displayWelcome : true 
   });
-  
+  const header = "Help Flatten the Curve";
   const hospitalFinder = <HospitalList matchingHospital = { state.matchingHospitals }  showWelcomeScreen = {state.displayWelcome}/>;
   const hospitalList = <HospitalFinder currentState = { state } AppManager = { appManager }/>;
 
   return (
-    <React.Fragment>
+    <>
+      <div className="bg-dark text-center text-white-50 font-italic p-3 ">  
+        <span className="display-2 font-weight-bold"> { header } </span>
+        <h3 className="text-white">  --- Search For Hospitals Around You --- </h3>
+      </div>
 
-        <div className="row d-flex justify-content-center m-5 align-items-center"> { hospitalList } </div>
-        <div className="row d-flex justify-content-center m-5"> { hospitalFinder } </div>
-
-    </React.Fragment>
+      <div className="row m-3">
+        <div className="col-3"> <div> { hospitalList } </div> </div>
+        <div className="col-8"> <div> { hospitalFinder } </div> </div>
+      </div>
+    </>
   );
 
 }

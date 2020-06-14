@@ -1,4 +1,4 @@
-const GoogleApiKey = "AIzaSyALQbAkgkiDS9chlu96Wqnr__TucA9NMfY";
+export const GoogleApiKey = "AIzaSyALQbAkgkiDS9chlu96Wqnr__TucA9NMfY";
 const searchBy:string = "hospital";
 
 export const geoLocation:string = "GEO_LOCATION";
@@ -7,13 +7,7 @@ export const geoPlaceID:string = "GEO_PLACE_ID";
 export const geoQuery:string = "GEO_QUERY_STRING";
 export const RadiusUnit:string = "km";
 
-export enum Radius
-{
-    CLOSEBY = 10,
-    REGION = 25,
-    STATE = 50,
-    METROPOLITAN = 100,
-}
+export enum Radius { CLOSEBY = 10, REGION = 25, STATE = 50, METROPOLITAN = 100, }
 
 interface GoogleApi
 {

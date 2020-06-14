@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { HospitalTableHandler } from '../models/interfaces';
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -30,43 +31,32 @@ const StyledTableRow = withStyles((theme: Theme) =>
   }),
 )(TableRow);
 
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: "90vw",
-  },
+    table: {
+    },
 });
 
-export default function HospitalTable() {
-  const classes = useStyles();
+export default function HospitalTable(receivedProps : HospitalTableHandler) {
+    const classes = useStyles();
+    const rows = receivedProps.hospitals.map(hospital => ({name:hospital.name, id:hospital.id}));
 
-  return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell> Hospital Name </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, key) => (
-            <StyledTableRow key={ key }>
-              <StyledTableCell component="th" scope="row"> {row.name} </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+    return (
+        <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+            <TableHead>
+            <TableRow>
+                <StyledTableCell className="text-center font-weight-bold"> HOSPITAL NAME </StyledTableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
+            {rows.map((hospital) => (
+                <StyledTableRow key={ hospital.id }>
+                <StyledTableCell className="text-center" component="th" scope="row"> {hospital.name} </StyledTableCell>
+                </StyledTableRow>
+            ))}
+            </TableBody>
+        </Table>
+        </TableContainer>
+    );
 }

@@ -46,7 +46,7 @@ const retrieveMatchingHospitals = async (location:any, radius:number) : Promise<
 
 export async function getHospitals(searchParam:Locator) : Promise<Hospital[]>
 {
-
+    
     let response:Hospital[] = [];
     const queryPlaceResponse:any = await getQueryPlaceID(searchParam.address);
 
