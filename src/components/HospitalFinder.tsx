@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Input, Button, Spin } from "antd";
-import { SearchOutlined } from '@ant-design/icons';
 import { HospitalFinderHandler, Request } from "../models/interfaces";
 import { Radius, RadiusUnit } from "../models/constants";
-import swal from "sweetalert";
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 import { getHospitals } from "../services/google";
 import '../App.css';
 
-const { Option } = Select;
 
 export default function HospitalFinder(receivedProps : HospitalFinderHandler) 
 {
@@ -29,26 +28,21 @@ export default function HospitalFinder(receivedProps : HospitalFinderHandler)
         }
     }, [searchQuery.isRequesting])
 
-    const handleAddress = (event : any):void => hospitalFinderManager({...searchQuery, address: event.target.value });
-    const handleRadius = (radius:Radius):void => hospitalFinderManager({...searchQuery, radius });
+    const handleInput = (event: any) : void => hospitalFinderManager({...searchQuery, [event.target.name]: event.target.value });
     const handleSearch = ():void => hospitalFinderManager({...searchQuery, isRequesting:true });
-
-    const searchButton = <Button type="primary" shape="round" onClick={handleSearch} icon={<SearchOutlined />}> Search </Button>;
     
     return (
 
-        <div className="d-flex text-center">
+        <div className="d-flex text-center mt-5">
 
-            <Input value={searchQuery.address} placeholder="Enter Address..."  onChange={ handleAddress }  />
-
-            <Select defaultValue={searchQuery.radius} className="ml-4 mr-4" style={{ width: 200 }} onChange={handleRadius}>
-                <Option value={Radius.CLOSEBY}>{Radius.CLOSEBY} {RadiusUnit}</Option>
-                <Option value={Radius.REGION}>{Radius.REGION} {RadiusUnit}</Option>
-                <Option value={Radius.STATE}>{Radius.STATE} {RadiusUnit}</Option>
-                <Option value={Radius.METROPOLITAN}>{Radius.METROPOLITAN} {RadiusUnit}</Option>
-            </Select>
-
-            { searchQuery.isRequesting  ? <Spin size="large" /> : searchButton }
+                <Select labelId="searchRadius" variant="filled" value={searchQuery.radius} name="radius" onChange = { handleInput }>
+                    <MenuItem value={ Radius.CLOSEBY }> { Radius.CLOSEBY} { RadiusUnit }</MenuItem>
+                    <MenuItem value={ Radius.REGION }> { Radius.REGION} { RadiusUnit }</MenuItem>
+                    <MenuItem value={ Radius.STATE }> { Radius.STATE} { RadiusUnit }</MenuItem>
+                    <MenuItem value={ Radius.METROPOLITAN }> { Radius.METROPOLITAN} { RadiusUnit }</MenuItem>
+                </Select>
+                
+                <TextField label="Location ....." name="address" variant="filled" value={searchQuery.address} onChange = { handleInput }/>
 
         </div>
     );

@@ -20,8 +20,8 @@ function App()
   return (
     <React.Fragment>
 
-        <div className="row d-flex justify-content-center m-5"> { hospitalFinder } </div>
         <div className="row d-flex justify-content-center m-5 align-items-center"> { hospitalList } </div>
+        <div className="row d-flex justify-content-center m-5"> { hospitalFinder } </div>
 
     </React.Fragment>
   );
