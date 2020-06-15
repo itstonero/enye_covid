@@ -6,10 +6,17 @@ export interface LatLng
     latitude:number;
 }
 
+export interface Suggestion
+{
+    address:string;
+    placeID:string;
+    geoLocation:LatLng;
+}
 export interface Request
 {
-    geoLocation:LatLng;
-    geoFencing:Radius;
+    address:string;
+    geoFencing:number;
+    suggestion:Suggestion[];
 }
 
 export interface Place
@@ -42,3 +49,8 @@ export interface HospitalListProps
     showWelcome:boolean;
 }
 
+export interface SuggestionProps
+{
+    suggestions:Suggestion[];
+    setParentState:React.Dispatch<React.SetStateAction<LatLng>>
+}
