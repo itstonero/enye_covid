@@ -1,7 +1,9 @@
 import React from 'react';
 import Suggestions from "./suggestions";
 import {InputLabel, TextField, MenuItem, FormControl, Select, makeStyles} from '@material-ui/core';
-import { HospitalFinderProps, Request, LatLng, Suggestion } from "../models/interfaces";
+import { HospitalFinderProps, Request, LatLng, Suggestion, GoogleHospitals, GoogleSuggestions } from "../models/interfaces";
+import { getGoogleHospitals, getGoogleSuggestion } from "../services/googlePlaces";
+
 import { GeoFencingRange } from '../models/constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,30 +26,27 @@ function HospitalFinder(props : HospitalFinderProps)
     React.useEffect(()=>{
         if(geoLocation.longitude !== Infinity && state.geoFencing !== 0)
         {
-            console.log(`The Selected Geolocation = ${JSON.stringify(geoLocation)}`)
-
-            fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyALQbAkgkiDS9chlu96Wqnr__TucA9NMfY&query=${state.address}`)
-            .then(res => res.json())
-            .then(data => 
+            const googleHospitals:GoogleHospitals = getGoogleHospitals(state.geoFencing, geoLocation);
+            if(googleHospitals.isSuccess)
             {
-                console.log(data);
-                const searchResults = data.results.reduce((acc:any[], item:any) => [...acc, {address:item.name, geoLocation:item.geometry.location, placeID:item.place_id}],[]);
-            })
-            .catch(err => console.log(err));
+                props.setParentState({...props.state, nearByHospitals:googleHospitals.hospitals});
+            }else{
+                
+            }
         }
     },[geoLocation, state.geoFencing]);
     
     React.useEffect(()=>{
         if(state.address !== "")
         {
-            fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyALQbAkgkiDS9chlu96Wqnr__TucA9NMfY&query=${state.address}`)
-            .then(res => res.json())
-            .then(data => 
+            const googleSuggestions:GoogleSuggestions = getGoogleSuggestion(state.address);
+            if(googleSuggestions.isSuccess)
             {
-                const searchResults = data.results.reduce((acc:any[], item:any) => [...acc, {address:item.name, geoLocation:item.geometry.location, placeID:item.place_id}],[]);
-                setSuggestions(searchResults);
-            })
-            .catch(err => console.log(err));
+                setSuggestions(googleSuggestions.suggestions);
+            }else
+            {
+
+            }
         }
     },[state.address]);
 

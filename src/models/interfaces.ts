@@ -29,6 +29,7 @@ export interface Hospital
 {
     name:string;
     id:string;
+    geoLocation:LatLng;
 }
 
 export interface AppState
@@ -53,4 +54,18 @@ export interface SuggestionProps
 {
     suggestions:Suggestion[];
     setParentState:React.Dispatch<React.SetStateAction<LatLng>>
+}
+
+export interface GoogleSuggestions
+{
+    suggestions:Suggestion[];
+    isSuccess:boolean;
+    message:string;
+}
+
+export interface GoogleHospitals
+{
+    hospitals:Hospital[];
+    isSuccess:boolean;
+    message:string;
 }
