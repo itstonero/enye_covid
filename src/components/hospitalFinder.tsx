@@ -1,6 +1,7 @@
 import React from 'react';
 import Suggestions from "./suggestions";
 import {InputLabel, TextField, MenuItem, FormControl, Select, makeStyles} from '@material-ui/core';
+
 import { HospitalFinderProps, Request, LatLng, Suggestion, GoogleHospitals, GoogleSuggestions } from "../models/interfaces";
 import { getGoogleHospitals, getGoogleSuggestion } from "../services/googlePlaces";
 import swal from "sweetalert";
@@ -13,12 +14,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 function HospitalFinder(props : HospitalFinderProps)
 {
     const [state, setState] = React.useState<Request>({geoFencing:0, address:""})
     const [geoLocation, setGeoLocation] = React.useState<LatLng>({longitude:Infinity, latitude:Infinity});
     const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
-    
+    const classes = useStyles();
 
     React.useEffect(()=>{
         if(geoLocation.longitude !== Infinity && state.geoFencing !== 0)
@@ -58,7 +60,6 @@ function HospitalFinder(props : HospitalFinderProps)
 
     const handleInput = (event : any) : void => setState({...state, [event.target.name]:event.target.value});
 
-    const classes = useStyles();
 
   return (<div className="m-2">
 
