@@ -3,7 +3,7 @@ import Suggestions from "./suggestions";
 import {InputLabel, TextField, MenuItem, FormControl, Select, makeStyles} from '@material-ui/core';
 import { HospitalFinderProps, Request, LatLng, Suggestion, GoogleHospitals, GoogleSuggestions } from "../models/interfaces";
 import { getGoogleHospitals, getGoogleSuggestion } from "../services/googlePlaces";
-
+import swal from "sweetalert";
 import { GeoFencingRange } from '../models/constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,14 +11,11 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       minWidth: 120,
     },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
 }));
 
 function HospitalFinder(props : HospitalFinderProps)
 {
-    const [state, setState] = React.useState<Request>({geoFencing:0, address:"", suggestion:[]})
+    const [state, setState] = React.useState<Request>({geoFencing:0, address:""})
     const [geoLocation, setGeoLocation] = React.useState<LatLng>({longitude:Infinity, latitude:Infinity});
     const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
     
@@ -29,9 +26,14 @@ function HospitalFinder(props : HospitalFinderProps)
             const googleHospitals:GoogleHospitals = getGoogleHospitals(state.geoFencing, geoLocation);
             if(googleHospitals.isSuccess)
             {
-                props.setParentState({...props.state, nearByHospitals:googleHospitals.hospitals});
-            }else{
-                
+                props.setParentState({...props.state, showWelcomeScreen:false, nearByHospitals:googleHospitals.hospitals});
+                if(googleHospitals.message !== "OK")
+                {
+                    swal("Usage", googleHospitals.message, "warning");
+                }
+            }else
+            {
+                swal("Failure", googleHospitals.message, "error");
             }
         }
     },[geoLocation, state.geoFencing]);
@@ -43,9 +45,13 @@ function HospitalFinder(props : HospitalFinderProps)
             if(googleSuggestions.isSuccess)
             {
                 setSuggestions(googleSuggestions.suggestions);
+                if(googleSuggestions.message !== "OK")
+                {
+                    swal("Usage", googleSuggestions.message, "warning");
+                }
             }else
             {
-
+                swal("Failure", googleSuggestions.message, "error");
             }
         }
     },[state.address]);

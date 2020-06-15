@@ -16,7 +16,6 @@ export interface Request
 {
     address:string;
     geoFencing:number;
-    suggestion:Suggestion[];
 }
 
 export interface Place
