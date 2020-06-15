@@ -33,10 +33,12 @@ export interface AppState
 export interface HospitalFinderProps
 {
     state:AppState;
+    setParentState:React.Dispatch<React.SetStateAction<AppState>>
 }
 
 export interface HospitalListProps
 {
     state:AppState;
+    showWelcome:boolean;
 }
 
